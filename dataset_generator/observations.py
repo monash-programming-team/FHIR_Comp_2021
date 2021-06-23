@@ -92,9 +92,16 @@ def generate_observations(
                         obs[obs_offset : obs_offset + expected_obs], start=obs_offset
                     ):
                         if "value_generator" in extra_info:
-                            entry["resource"]["valueQuantity"]["value"] = extra_info[
-                                "value_generator"
-                            ](index)
+                            if "component" in entry["resource"]:
+                                for i, v in enumerate(extra_info["value_generator"](index)):
+                                    entry["resource"]["component"][i]["valueQuantity"] = {
+                                        "value": v,
+                                        "code": "mmHg",
+                                        "unit": "mmHg",
+                                        "system": "http://unitsofmeasure.org",
+                                    }
+                            else:
+                                entry["resource"]["valueQuantity"]["value"] = extra_info["value_generator"](index)
                         if "object_map" in extra_info:
                             entry["resource"] = extra_info["object_map"](entry["resource"], entry["resource"]["valueQuantity"]["value"])
                         try:

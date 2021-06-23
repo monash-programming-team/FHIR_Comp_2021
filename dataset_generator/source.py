@@ -22,7 +22,26 @@ PRACS_PER_ENCOUNTER = [1, 3.5]
 ORGS_PER_PRAC = [1, 5.5]
 
 ########### OBSERVATIONS ####################
-OBSERVATION_PRESSURE = ["55284-4", "Blood_Pressure", [0.8, 1.8], {}]
+def distribution(x):
+    up_the_line = random.random()
+    up_the_line *= up_the_line
+    mag = random.random()
+    mag *= mag
+    mag = (1 - up_the_line) * (1 - mag)
+    flip1 = random.random() > 0.5
+    flip2 = random.random() > 0.5
+    line_point = (up_the_line, -up_the_line) if flip1 else (-up_the_line, up_the_line)
+    bottom_left = (100, 150)
+    size = (40, 20)
+    relative = (line_point[0] + mag, line_point[1] + mag) if flip2 else (line_point[0] - mag, line_point[1] - mag)
+    return [
+        (relative[0] + 1)/2 * size[0] + bottom_left[0],
+        (relative[1] + 1)/2 * size[1] + bottom_left[1]
+    ]
+    
+OBSERVATION_PRESSURE = ["55284-4", "Blood_Pressure", [1.3, 2.4], {
+    "value_generator": (lambda x: distribution(x))
+}]
 OBSERVATION_SMOKING = ["72166-2", "Tobacco Smoking Status", [0.5, 1.5], {}]
 OBSERVATION_PLATELET = [
     "32623-1",
@@ -55,7 +74,7 @@ OBSERVATION_PLATELET = [
 ]
 OBSERVATION_PRESSURE = ["55284-4", "Blood_Pressure", [0.8, 1.8], {"value_generator": (lambda x: get_random(x) * 5 + 20)}]"""
 
-OBSERVATION_LIST = [OBSERVATION_PLATELET, BIONIC_DATA]
+OBSERVATION_LIST = [OBSERVATION_PLATELET, BIONIC_DATA, OBSERVATION_PRESSURE]
 #############################################
 
 API_TOKEN = "b6ai0PI8aEEGrUGnMA18zAZsfqaBbFdD"
