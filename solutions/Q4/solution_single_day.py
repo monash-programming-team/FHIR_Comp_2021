@@ -10,9 +10,6 @@ print("Ready!")
 # How many test cases?
 t = int(input())
 
-value_code1 = "XXXX-X"
-value_code2 = "XXXX-X"
-
 for case in range(1, t+1):
     pat_ids = input().split()
     # vals[x][y] = patient y, value code x.
@@ -28,4 +25,5 @@ for case in range(1, t+1):
         for x in range(2)
     ]
     required_distance = sum(max(v) - min(v) for v in vals)
+    print(1)
     print("C", required_distance, "P", " ".join(pat_ids))
