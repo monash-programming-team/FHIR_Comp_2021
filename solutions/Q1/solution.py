@@ -13,11 +13,15 @@ n = int(input())
 
 value_code = "32623-1"
 
+total_patients = 0
+
 def possible(patients, c_min, c_max):
-    return (pow(c_max - c_min, 2) * patients) / 1000000 < 3
+    return (pow(c_max - c_min, 2) * patients / total_patients) / 30 < 3
 
 def solve(line):
+    global total_patients
     ids = line.split()
+    total_patients = len(ids)
     # For each patient, find the latest observation with the correct value code.
     # We are guaranteed that every patient has at least one of these records.
     """bad_ids = [
