@@ -2,10 +2,10 @@
 
 You are rolling out a vaccine for a new virus, that is fast mutating and specific to body types. As such, every vaccine needs to be personally hand crafted, to avoid side-effects.
 
-That being said, you can still get away with certain groups of people sharing the same hand-crafted vaccine, provided they have similar Platelet Mean Volume. In particular, let's say we are making a vaccine for a group of people, with Platelet Mean Volume in the range of ~\[v_\text{min}, v_\text{max}\]~. Then the probabilty that any one person experiences side-effects is 
+That being said, you can still get away with certain groups of people sharing the same hand-crafted vaccine, provided they have similar Platelet Mean Volume. In particular, let's say we are making a vaccine for a group of people, with Platelet Mean Volume in the range of ~[v_\text{min}, v_\text{max}]~. Then the probabilty that any one person experiences side-effects is 
 
 $$
-    \frac{(v_max - v_min)^2}{30n},
+    \frac{(v_\text{max} - v_\text{min})^2}{30n},
 $$
 
 where ~n~ is dependant on the test case.
