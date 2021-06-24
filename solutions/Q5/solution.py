@@ -30,6 +30,7 @@ def find_strongest_safe(ids, other, expect_low=True):
         print("Q", other)
         res = input()
         # XOR
+        # Should be DANGEROUS if low.
         truth[x] = int(res == "SAFE") + int(expect_low) != 1
     # Now binary search.
     lo = 0
@@ -40,7 +41,8 @@ def find_strongest_safe(ids, other, expect_low=True):
         print("Q", ids[mid])
         res = input()
         # XOR
-        if int(truth[x]) + int(res == "SAFE") == 1:
+        # If telling the truth, SAFE means go lower.
+        if int(truth[x]) + int(res == "SAFE") != 1:
             hi = mid
         else:
             lo = mid

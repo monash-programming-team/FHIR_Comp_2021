@@ -66,7 +66,7 @@ class Grader(InteractiveGrader):
                 query = interactor.readtoken().decode('utf-8')
                 if query == "A":
                     patient = interactor.readtoken().decode('utf-8')
-                    if (patient == best and n_queries < expected_queries):
+                    if (patient == best and n_queries <= expected_queries):
                         if x < 60:
                             correct += 0.3333
                         elif x < 80:
@@ -79,9 +79,9 @@ class Grader(InteractiveGrader):
                     patient = interactor.readtoken().decode('utf-8')
                     if patient not in v_mapping:
                         return CheckerResult(False, 0, f"Non-unique weighing given.")
-                    if int(v_mapping[patient] <= in_data[best][1]) + int(lying[n_queries % 7]) == 1:
-                        interactor.writeln("SAFE")
-                    else:
+                    if int(v_mapping[patient] <= in_data[best][1] + 1e-9) + int(lying[n_queries % 7]) == 1:
                         interactor.writeln("DANGEROUS")
+                    else:
+                        interactor.writeln("SAFE")
 
         return CheckerResult(True, case.points * correct / 100, f"Earned {correct:.2f}%")
