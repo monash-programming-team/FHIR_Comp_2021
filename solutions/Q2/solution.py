@@ -11,8 +11,8 @@ t = int(input())
 
 value_code = "94235-3"
 
-DP = [[None for _ in range(21)] for _ in range(200001)]
-COST = [[None for _ in range(21)] for _ in range(200001)]
+DP = [[None for _ in range(11)] for _ in range(200001)]
+COST = [[None for _ in range(11)] for _ in range(200001)]
 
 for case in range(t):
     n, max_k, D, C = list(map(int, input().split()))

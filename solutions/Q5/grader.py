@@ -18,8 +18,14 @@ class Grader(InteractiveGrader):
         if "ready" not in read.lower():
             return CheckerResult(False, 0, feedback=f"Didn't Print Ready! Got {read}", extended_feedback=interactor.read().decode('utf-8'))
 
-        tests = 100
+        # Body weigth ranges from 45 to 165.
+        # Distribution is uniform.
 
+        # 60 tests, 3% of population,  Worth 20%, 0.3333% each
+        # 20 tests, 30% of population, Worth 30%, 1.5% each
+        # 10 tests, 98% of population, Worth 50%, 5% each
+
+        tests = 60 + 20 + 10
         interactor.writeln(tests)
 
         correct = 0
@@ -33,7 +39,12 @@ class Grader(InteractiveGrader):
 
         for x in range(tests):
             while True:
-                length = random.random() * (in_data[-1][1] - in_data[0][1])
+                if x < 60:
+                    length = (random.random() * 1.5 + 1.5) / 100 * 120
+                elif x < 80:
+                    length = (random.random() * 15 + 15) / 100 * 120
+                else:
+                    length = (random.random() * 2 + 96) / 100 * 120
                 start = in_data[0][1] + random.random()*(in_data[-1][1] - in_data[0][1] - length)
                 l, r = None, None
                 for y in range(len(in_data)):
@@ -56,7 +67,12 @@ class Grader(InteractiveGrader):
                 if query == "A":
                     patient = interactor.readtoken().decode('utf-8')
                     if (patient == best and n_queries < expected_queries):
-                        correct += 1
+                        if x < 60:
+                            correct += 0.3333
+                        elif x < 80:
+                            correct += 1.5
+                        else:
+                            correct += 5
                     break
                 if query == "Q":
                     n_queries += 1
@@ -68,6 +84,4 @@ class Grader(InteractiveGrader):
                     else:
                         interactor.writeln("DANGEROUS")
 
-        correct = min(correct, tests)
-        correct = max(correct, 0)
-        return CheckerResult(True, case.points * correct / tests, f"Scored {100 * correct / tests:.2f}\%")
+        return CheckerResult(True, case.points * correct / 100, f"Earned {correct:.2f}%")

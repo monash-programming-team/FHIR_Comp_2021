@@ -1,3 +1,6 @@
+import datetime
+import decimal
+
 class Resource:
     def __init__(self, data, all_objects):
         self.id = data["resource"]["id"]
@@ -129,29 +132,93 @@ def read_dataset(dataset_path):
         "observations": observations,
     }
 
-data = read_dataset("dataset/build")
+data = read_dataset("/problems/data/dataset")
 
-import random, math
+vals = {
+    _id: [
+        min([
+            (datetime.datetime.fromisoformat(obs.effective), obs.component[x]["valueQuantity"]["value"]) 
+            for obs_id in data['patients'][_id].observations 
+            if (obs := data['observations'][obs_id]).code == "55284-4"
+        ])[1]
+        for x in range(2)
+    ]
+    for _id in data['patients']
+}
 
-n_easy = 5   # 8 practitioners
-n_medium = 3 # 15 practitioners
-n_hard = 2   # 30 practitioners
+import os, sys
+from dmoj.result import CheckerResult
+from dmoj.graders.interactive import InteractiveGrader
 
-print("dataset/build")
+class Grader(InteractiveGrader):
+    def interact(self, case, interactor):
 
-print(n_easy + n_medium + n_hard)
+        in_data = case.input_data().decode('utf-8').split("\n")[1:]
+        out_data = case.output_data().decode('utf-8').split("\n")[1:]
 
-patients = list(data["patients"].keys())
+        # [0] = number of test cases
+        # [1:] = test case inputs
 
-for x in range(n_easy):
-    start = random.randint(0, len(patients) - 8)
-    print(" ".join(patients[start: start+8]))
+        # 5 tests, 10 patients, worth 20%: 4% p test
+        # 3 tests, 25 patients, worth 30%: 10% p test
+        # 2 tests, 40 patients, worth 50%: 25% p test
 
-for x in range(n_medium):
-    start = random.randint(0, len(patients) - 15)
-    print(" ".join(patients[start: start+15]))
+        dataset_path = "/problems/data/dataset"
+        interactor.writeln(dataset_path)
 
-for x in range(n_hard):
-    start = random.randint(0, len(patients) - 30)
-    print(" ".join(patients[start: start+30]))
+        # Wait for a ready.
+        read = interactor.readln().decode('utf-8')
+        if "ready" not in read.lower():
+            return CheckerResult(False, 0, feedback=f"Didn't Print Ready! Got {read}", extended_feedback=interactor.read().decode('utf-8'))
 
+        interactor.writeln(in_data[0])
+
+        correct = 0
+        tests = int(in_data[0])
+        cur_sol_index = 0
+
+        for x in range(tests):
+            interactor.writeln(in_data[x+1])
+            covered = {
+                id_: False
+                for id_ in in_data[x+1].split()
+            }
+            # Read all the rectangles
+            n_rects = interactor.readint()
+            total_cost = 0
+            for r in range(n_rects):
+                line = interactor.readln().decode("utf-8").split()
+                if line[0] != "C":
+                    return CheckerResult(False, 0, f"Expected token C, got {line[0]}")
+                distance = float(line[1])
+                total_cost += 10 + pow(distance, 1.5)
+                if line[2] != "P":
+                    return CheckerResult(False, 0, f"Expected token P, got {c}")
+                for pat in line[3:]:
+                    covered[pat] = True
+                # Make sure it fits.
+                mav0, miv0, mav1, miv1 = max(vals[pat][0] for pat in line[3:]), min(vals[pat][0] for pat in line[3:]), max(vals[pat][1] for pat in line[3:]), min(vals[pat][1] for pat in line[3:])
+                if mav0 - miv0 + mav1 - miv1 > distance + 1e-9:
+                    return CheckerResult(False, 0, "Invalid selection of patients given.")
+            for key in covered:
+                if covered[key] is False:
+                    return CheckerResult(False, 0, "Not all patients covered by scheme.")
+            # Calculate the cost of the solution data.
+            n_sol_rects = int(out_data[cur_sol_index])
+            cur_sol_index += 1
+            sol_cost = 0
+            for r in range(n_sol_rects):
+                sol_cost += 10 + pow(float(out_data[cur_sol_index].split()[1]), 1.5)
+                cur_sol_index += 1
+            # Higher cost than sol = bad.
+            # Assume that 95% of sol cost is best, and 125% of sol is 0 score. And linearly interpolate.
+            pct = (1.25 * sol_cost - total_cost) / (0.3 * sol_cost)
+            pct = max(min(pct, 1), 0)
+            if x < 5:
+                correct += 4 * pct
+            elif x < 8:
+                correct += 10 * pct
+            else:
+                correct += 25 * pct
+
+        return CheckerResult(True, case.points * correct / 100, f"Earned {correct:.2f}%")

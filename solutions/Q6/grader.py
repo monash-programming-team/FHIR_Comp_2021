@@ -18,15 +18,26 @@ class Grader(InteractiveGrader):
         if "ready" not in read.lower():
             return CheckerResult(False, 0, feedback=f"Didn't Print Ready! Got {read}", extended_feedback=interactor.read().decode('utf-8'))
 
-        tests = 100
+        # Ranges from 10-40
+        # Distribution is uniform.
 
+        # 60 tests, 3% of population,  Worth 20%, 0.3333% each
+        # 20 tests, 30% of population, Worth 30%, 1.5% each
+        # 10 tests, 98% of population, Worth 50%, 5% each
+
+        tests = 60 + 20 + 10
         interactor.writeln(tests)
 
         correct = 0
 
         for x in range(tests):
             while True:
-                length = random.random() * (in_data[-1][1] - in_data[0][1])
+                if x < 60:
+                    length = (random.random() * 1.5 + 1.5) / 100 * 30
+                elif x < 80:
+                    length = (random.random() * 15 + 15) / 100 * 30
+                else:
+                    length = (random.random() * 2 + 96) / 100 * 30
                 start = in_data[0][1] + random.random()*(in_data[-1][1] - in_data[0][1] - length)
                 l, r = None, None
                 for y in range(len(in_data)):
@@ -43,7 +54,8 @@ class Grader(InteractiveGrader):
             interactor.writeln(f"{start} {start+length}")
 
             n_queries = 0
-            expected_queries = math.log((r - l + 1) * (r - l) / 2, 3)
+            # TODO: Change this to a specific value so that at 98% 4/9ths solution fails.
+            expected_queries = math.log((r - l + 1) * (r - l) / 2, 3) + 3
 
             while True:
                 query = interactor.readtoken().decode('utf-8')
@@ -51,8 +63,13 @@ class Grader(InteractiveGrader):
                     r1 = interactor.readtoken().decode('utf-8')
                     r2 = interactor.readtoken().decode('utf-8')
                     if (r1 == in_data[first][0] and r2 == in_data[second][0]) or (r1 == in_data[second][0] and r2 == in_data[first][0]):
-                        print(n_queries, expected_queries, r - l + 1, file=sys.stderr)
-                        correct += 1 - (n_queries - expected_queries)/((r - l + 1) - expected_queries)
+                        print(n_queries, expected_queries, file=sys.stderr)
+                        if x < 60:
+                            correct += 0.3333
+                        elif x < 80:
+                            correct += 1.5
+                        else:
+                            correct += 5
                     break
                 if query == "Q":
                     n_queries += 1
@@ -85,6 +102,5 @@ class Grader(InteractiveGrader):
                             else:
                                 interactor.writeln("EQUAL")
 
-        correct = min(correct, tests)
         correct = max(correct, 0)
-        return CheckerResult(True, case.points * correct / tests, f"Scored {100 * correct / tests:.2f}\%")
+        return CheckerResult(True, case.points * correct / 100, f"Earned {correct:.2f}\%")

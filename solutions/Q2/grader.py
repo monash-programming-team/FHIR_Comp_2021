@@ -11,6 +11,10 @@ class Grader(InteractiveGrader):
         # [0] = number of test cases
         # [1:] = test case inputs
 
+        # 10 tests, 10 practitioners, worth 20%: 2% p test
+        # 5 tests, sqrt practitioners, worth 30%: 6% p test
+        # 3 tests, all practitioners - 10, worth 50%: 16.66% p test
+
         dataset_path = "/problems/data/dataset"
         interactor.writeln(dataset_path)
 
@@ -28,6 +32,11 @@ class Grader(InteractiveGrader):
             interactor.writeln(in_data[2*x+1])
             interactor.writeln(in_data[2*x+2])
             if interactor.readint() == int(out_data[x]):
-                correct += 1
+                if x < 10:
+                    correct += 2
+                elif x < 5:
+                    correct += 6
+                else:
+                    correct += 16.6666
 
-        return CheckerResult(True, case.points * correct / tests, f"Solved {100 * correct / tests:.2f}\%")
+        return CheckerResult(True, case.points * correct / 100, f"Earned {correct:.2f}%")

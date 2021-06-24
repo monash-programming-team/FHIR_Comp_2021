@@ -11,6 +11,16 @@ class Grader(InteractiveGrader):
         # [0] = number of test cases
         # [1:] = test case inputs
 
+        # First 50 test case := 3% of patients
+        # Middle 20 test case := 30% of patients
+        # Last 5 test case := 98% of patients
+
+        # Solving 3%s: 20%
+        # Solving 30%s: 60%
+        # 50 test cases worth 20%: 1 test case worth 0.4%.
+        # 20 test cases worth 40%: 1 test case worth 2%
+        # 5 test case worth 40%: 1 test case worth 8%
+
         dataset_path = "/problems/data/dataset"
         interactor.writeln(dataset_path)
 
@@ -27,6 +37,11 @@ class Grader(InteractiveGrader):
         for x in range(tests):
             interactor.writeln(in_data[x+1])
             if abs(interactor.readfloat() - float(out_data[x])) <= 2e-8:
-                correct += 1
+                if x < 50:
+                    correct += 0.4
+                elif x < 70:
+                    correct += 2
+                else:
+                    correct += 8
 
-        return CheckerResult(True, case.points * correct / tests, f"Solved {100 * correct / tests:.2f}\%")
+        return CheckerResult(True, case.points * correct / 100, f"Earned {correct:.2f}%")

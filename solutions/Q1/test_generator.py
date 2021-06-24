@@ -143,7 +143,7 @@ data = read_dataset("dataset/build")
 
 import random, math
 
-n_easy = 50   # 10% patients
+n_easy = 50   # 3% patients
 n_medium = 20 # 30% patients
 n_hard = 5   # 98% patients
 
@@ -155,8 +155,8 @@ patients = list(data["patients"].keys())
 pct = len(patients) // 100
 
 for x in range(n_easy):
-    start = random.randint(0, len(patients) - 10 * pct)
-    print(" ".join(patients[start: start+10 * pct]))
+    start = random.randint(0, len(patients) - 3 * pct)
+    print(" ".join(patients[start: start+3 * pct]))
 
 for x in range(n_medium):
     start = random.randint(0, len(patients) - 30 * pct)
