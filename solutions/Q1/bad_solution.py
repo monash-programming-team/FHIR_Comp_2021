@@ -8,15 +8,19 @@ data = read_dataset(filepath)
 print("Ready!")
 
 # How many test cases?
-n = int(input())
+tests = int(input())
 
 value_code = "32623-1"
 
+n = 0
+
 def possible(patients, c_min, c_max):
-    return (pow(c_max - c_min, 2) * patients) / 1000000 < 3
+    return (pow(c_max - c_min, 2) * patients) / (30 * n) < 3
 
 def solve(line):
-    ids = line.split()
+    global n
+    n, pats, *ids = line.split()
+    n = int(n)
     # For each patient, find the latest observation with the correct value code.
     # We are guaranteed that every patient has at least one of these records.
     sorted_values = sorted([
@@ -41,5 +45,5 @@ def solve(line):
         best = max(best, right - left)
     print(best)
 
-for x in range(n):
+for x in range(tests):
     solve(input())

@@ -156,13 +156,16 @@ pct = len(patients) // 100
 
 for x in range(n_easy):
     start = random.randint(0, len(patients) - 3 * pct)
-    print(" ".join(patients[start: start+3 * pct]))
+    n = random.randint(3 * pct - 5, 3 * pct + 5)
+    print(n, 3 * pct, " ".join(patients[start: start+3 * pct]))
 
 for x in range(n_medium):
     start = random.randint(0, len(patients) - 30 * pct)
-    print(" ".join(patients[start: start+30 * pct]))
+    n = random.randint(30 * pct - 30, 30 * pct + 30)
+    print(n, 30 * pct, " ".join(patients[start: start+30 * pct]))
 
 for x in range(n_easy):
     start = random.randint(0, len(patients) - 2 * pct)
-    print(" ".join(patients[:start] + patients[start+2 * pct:]))
+    n = random.randint(98 * pct - 100, 98 * pct + 100)
+    print(n, len(patients) - 2 * pct, " ".join(patients[:start] + patients[start+2 * pct:]))
 

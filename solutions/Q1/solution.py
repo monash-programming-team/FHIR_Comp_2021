@@ -9,19 +9,19 @@ data = read_dataset(filepath)
 print("Ready!")
 
 # How many test cases?
-n = int(input())
+tests = int(input())
 
 value_code = "32623-1"
 
-total_patients = 0
+n = 0
 
 def possible(patients, c_min, c_max):
-    return (pow(c_max - c_min, 2) * patients / total_patients) / 30 < 3
+    return (pow(c_max - c_min, 2) * patients) / (30 * n) < 3
 
 def solve(line):
-    global total_patients
-    ids = line.split()
-    total_patients = len(ids)
+    global n
+    n, pats, *ids = line.split()
+    n = int(n)
     # For each patient, find the latest observation with the correct value code.
     # We are guaranteed that every patient has at least one of these records.
     """bad_ids = [
@@ -67,5 +67,5 @@ def solve(line):
             heapq.heappop(max_heap)
     print(best_score)
 
-for x in range(n):
+for x in range(tests):
     solve(input())
