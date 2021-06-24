@@ -1,4 +1,4 @@
-# This is an N^5 operation, so will be too slow for the final patient set.
+# This is an N^5 operation
 # This doesn't solve the problem completely, as there are some edge case rectangle selections that get ignored.
 # It does a pretty good job though.
 
@@ -17,10 +17,10 @@ print("Ready!")
 # How many test cases?
 t = int(input())
 
-DP = [[[[None for _ in range(42)] for __ in range(42)] for ___ in range(42)] for ____ in range(42)]
+DP = [[[[None for _ in range(31)] for __ in range(31)] for ___ in range(31)] for ____ in range(31)]
 
 def cost(x1, y1, x2, y2):
-    return 10 + pow(float(abs(x2 - x1)), 1.5) + pow(float(abs(y2 - y1)), 1.5)
+    return 10 + pow(float(abs(x2 - x1)) + float(abs(y2 - y1)), 1.5)
 
 for case in range(1, t+1):
     pat_ids = input().split()
