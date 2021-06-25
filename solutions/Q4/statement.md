@@ -43,7 +43,7 @@ Then, for each cleaning, print one line containing (separated by spaces):
 
 ## Scoring
 
-We have a solution the does alright in allocating everyone.
+We have a solution that does alright in allocating everyone.
 
 You will begin to accrue points if your answers cost less than 125% of ours.
 You will stop getting points if your answers cost less than 95% of ours (You will get full score).
