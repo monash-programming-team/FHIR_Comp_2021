@@ -2,7 +2,6 @@
 import datetime
 import decimal
 
-# TODO: Change
 value_code = "29463-7"
 
 filepath = input()
@@ -31,7 +30,7 @@ def find_strongest_safe(ids, other, expect_low=True):
         res = input()
         # XOR
         # Should be DANGEROUS if low.
-        truth[x] = int(res == "SAFE") + int(expect_low) != 1
+        truth[x] = int(res == "SAFE") + int(expect_low) == 1
     # Now binary search.
     lo = 0
     hi = len(ids)
@@ -42,12 +41,12 @@ def find_strongest_safe(ids, other, expect_low=True):
         res = input()
         # XOR
         # If telling the truth, SAFE means go lower.
-        if int(truth[x]) + int(res == "SAFE") != 1:
+        if int(truth[idx]) + int(res == "SAFE") != 1:
             hi = mid
         else:
             lo = mid
         idx = (idx+1) % 7
-    return lo
+    return ids[lo]
 
 for x in range(n):
     in1, in2 = list(map(float, input().split()))
