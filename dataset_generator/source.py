@@ -61,6 +61,7 @@ RANDOM_BIONIC_CHOICES = [r.get_random_word(hasDictionaryDef="true", includePartO
 BIONIC_DATA = ["718-7", "Bionic Enhancement", [1.01, 1.01], {"value_generator": (lambda x: random.choice(RANDOM_BIONIC_CHOICES)), "object_map": bionic_map}]
 
 BODY_WEIGHT = ["29463-7", "Body Weight", [1.01, 2.5], {"value_generator": (lambda x: 45 + random.random() * 120)}]
+BODY_HEIGHT = ["8302-2", "Body Height", [1.01, 2.5], {"value_generator": (lambda x: 45 + random.random() * 120)}]
 
 HEMOGLOBIN = ["718-7", "Hemoglobin [Mass/volume] in Blood", [1.01, 1.01], {"value_generator": (lambda x: 10 + random.random() * 30)}]
 
@@ -78,7 +79,7 @@ OBSERVATION_PLATELET = [
 ]
 OBSERVATION_PRESSURE = ["55284-4", "Blood_Pressure", [0.8, 1.8], {"value_generator": (lambda x: get_random(x) * 5 + 20)}]"""
 
-OBSERVATION_LIST = [OBSERVATION_PLATELET, BIONIC_DATA, OBSERVATION_PRESSURE, BODY_WEIGHT, HEMOGLOBIN]
+OBSERVATION_LIST = [OBSERVATION_PLATELET, BIONIC_DATA, OBSERVATION_PRESSURE, BODY_WEIGHT, BODY_HEIGHT, HEMOGLOBIN]
 #############################################
 
 API_TOKEN = "b6ai0PI8aEEGrUGnMA18zAZsfqaBbFdD"

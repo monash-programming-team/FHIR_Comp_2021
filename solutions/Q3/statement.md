@@ -25,7 +25,7 @@ Next, a single integer will be given on the next line, this will be the number o
 
 For each test case, we have two lines:
 
-The first line contains ~d~, and ~p~, ~d~ being the value mentioned earlier, and ~p~ being the number of patients to consider.
+The first line contains ~d~ and ~p~, ~d~ being the value mentioned earlier, and ~p~ being the number of patients to consider.
 
 The second line contains the ~p~ space separated patient IDs that we are considering.
 
