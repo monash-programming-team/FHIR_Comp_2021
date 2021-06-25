@@ -1,4 +1,4 @@
-# Greedy Vaccines
+# Efficient Vaccines
 
 You are rolling out a vaccine for a new virus, that is fast mutating and specific to body types. As such, every vaccine needs to be personally hand crafted, to avoid side-effects.
 

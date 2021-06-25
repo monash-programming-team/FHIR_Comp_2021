@@ -6,7 +6,7 @@ class Grader(InteractiveGrader):
     def interact(self, case, interactor):
 
         in_data = case.input_data().decode('utf-8').split("\n")[1:]
-        out_data = case.output_data().decode('utf-8').split("\n")
+        out_data = case.output_data().decode('utf-8').split("\n")[1:]
 
         # [0] = number of test cases
         # [1:] = test case inputs
@@ -34,7 +34,7 @@ class Grader(InteractiveGrader):
             if interactor.readint() == int(out_data[x]):
                 if x < 10:
                     correct += 2
-                elif x < 5:
+                elif x < 15:
                     correct += 6
                 else:
                     correct += 16.6666

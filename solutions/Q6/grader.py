@@ -63,13 +63,13 @@ class Grader(InteractiveGrader):
                     r1 = interactor.readtoken().decode('utf-8')
                     r2 = interactor.readtoken().decode('utf-8')
                     if (r1 == in_data[first][0] and r2 == in_data[second][0]) or (r1 == in_data[second][0] and r2 == in_data[first][0]):
-                        print(n_queries, expected_queries, file=sys.stderr)
-                        if x < 60:
-                            correct += 0.3333
-                        elif x < 80:
-                            correct += 1.5
-                        else:
-                            correct += 5
+                        if n_queries < expected_queries:
+                            if x < 60:
+                                correct += 0.3333
+                            elif x < 80:
+                                correct += 1.5
+                            else:
+                                correct += 5
                     break
                 if query == "Q":
                     n_queries += 1
@@ -77,6 +77,9 @@ class Grader(InteractiveGrader):
                     a2 = interactor.readint()
                     ids1 = [interactor.readtoken().decode('utf-8') for _ in range(a1)]
                     ids2 = [interactor.readtoken().decode('utf-8') for _ in range(a2)]
+                    if n_queries > 1000:
+                        interactor.writeln("FINISH")
+                        break
                     if len(set(ids1 + ids2)) != len(ids1 + ids2):
                         return CheckerResult(False, 0, f"Non-unique weighing given.")
                     if len(ids1) > len(ids2):
