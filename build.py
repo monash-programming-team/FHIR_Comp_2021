@@ -1,24 +1,48 @@
 """Builds the dataset, compiles all solutions, creates test files, and zips test files."""
 import argparse, os, sys
 import subprocess
-import runpy
+import zipfile
 from solutions.build_soln import main as compile_soln
+from secret_keys import JUDGE_IP
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--no-dataset", action="store_false", dest="dataset")
+parser.add_argument("--no-upload", action="store_false", dest="upload")
+parser.add_argument("-o", "--override", type=str, default="")
 
-GRADING_FOLDERS = ["Q1", "Q2"]
+GRADING_FOLDERS = ["Q1", "Q2", "Q3", "Q4"]
+PROBLEM_NAMES = {
+    "Q1": "datatest",
+    "Q2": "bionic",
+    "Q3": "patientlinks", 
+    "Q4": "batchtesting", 
+    "Q5": "extraweight", 
+    "Q6": "intertest",
+}
 
 def main():
+    global GRADING_FOLDERS
     args = parser.parse_args(sys.argv[1:])
+
+    if args.override:
+        GRADING_FOLDERS = [args.override]
     
     if args.dataset:
         from dataset_generator.source import main as generate_data
+        print("GENERATING DATA...")
         generate_data()
+        if args.upload:
+            print("UPLOADING DATA...")
+            subprocess.run(f"scp dataset/build/encounters.json ubuntu@{JUDGE_IP}:/home/ubuntu/problems/data/dataset/encounters.json".split())
+            subprocess.run(f"scp dataset/build/observations.json ubuntu@{JUDGE_IP}:/home/ubuntu/problems/data/dataset/observations.json".split())
+            subprocess.run(f"scp dataset/build/organizations.json ubuntu@{JUDGE_IP}:/home/ubuntu/problems/data/dataset/organizations.json".split())
+            subprocess.run(f"scp dataset/build/patients.json ubuntu@{JUDGE_IP}:/home/ubuntu/problems/data/dataset/patients.json".split())
+            subprocess.run(f"scp dataset/build/practitioners.json ubuntu@{JUDGE_IP}:/home/ubuntu/problems/data/dataset/practitioners.json".split())
 
     for f in os.listdir("solutions"):
         f_p = os.path.join("solutions", f)
-        if os.path.isdir(f_p):
+        if os.path.isdir(f_p) and f.startswith("Q"):
+            print("Compiling", f)
             for f2 in os.listdir(f_p):
                 if f2.endswith(".py") and "compiled" not in f2 and "solution" in f2:
                     # Compile solution
@@ -31,6 +55,17 @@ def main():
                 with open(f"solutions/{f}/1.in", "r") as test_in:
                     with open(f"solutions/{f}/1.out", "w") as test_out:
                         subprocess.run(f"python -m solutions.{f}.solution_compiled".split(), stdin=test_in, stdout=test_out)
+            if args.upload:
+                # Archive.
+                with zipfile.ZipFile(f"solutions/{f}/archive.zip", "w") as z:
+                    z.write(f"solutions/{f}/1.in", arcname="1.in")
+                    if os.path.exists(f"solutions/{f}/1.out"):
+                        z.write(f"solutions/{f}/1.out", arcname="1.out")
+                # SCP
+                subprocess.run(f"scp solutions/{f}/grader.py ubuntu@{JUDGE_IP}:/home/ubuntu/problems/{PROBLEM_NAMES[f]}/grader.py".split())
+                subprocess.run(f"scp solutions/{f}/archive.zip ubuntu@{JUDGE_IP}:/home/ubuntu/problems/{PROBLEM_NAMES[f]}/archive.zip".split())
+                # Remove archive.
+                os.remove(f"solutions/{f}/archive.zip")
 
 if __name__ == "__main__":
     main()

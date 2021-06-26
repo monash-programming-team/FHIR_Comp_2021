@@ -58,10 +58,10 @@ def bionic_map(obj, v):
 
 RANDOM_BIONIC_CHOICES = [r.get_random_word(hasDictionaryDef="true", includePartOfSpeech="noun") for _ in range(math.ceil(math.sqrt(NUMBER_PATIENTS)))]
 
-BIONIC_DATA = ["718-7", "Bionic Enhancement", [1.01, 1.01], {"value_generator": (lambda x: random.choice(RANDOM_BIONIC_CHOICES)), "object_map": bionic_map}]
+BIONIC_DATA = ["777-3", "Bionic Enhancement", [1.01, 1.01], {"value_generator": (lambda x: random.choice(RANDOM_BIONIC_CHOICES)), "object_map": bionic_map}]
 
 BODY_WEIGHT = ["29463-7", "Body Weight", [1.01, 2.5], {"value_generator": (lambda x: 45 + random.random() * 120)}]
-BODY_HEIGHT = ["8302-2", "Body Height", [1.01, 2.5], {"value_generator": (lambda x: 45 + random.random() * 120)}]
+BODY_HEIGHT = ["8302-2", "Body Height", [1.01, 2.5], {"value_generator": (lambda x: 140 + random.random() * 65)}]
 
 HEMOGLOBIN = ["718-7", "Hemoglobin [Mass/volume] in Blood", [1.01, 1.01], {"value_generator": (lambda x: 10 + random.random() * 30)}]
 
@@ -82,7 +82,7 @@ OBSERVATION_PRESSURE = ["55284-4", "Blood_Pressure", [0.8, 1.8], {"value_generat
 OBSERVATION_LIST = [OBSERVATION_PLATELET, BIONIC_DATA, OBSERVATION_PRESSURE, BODY_WEIGHT, BODY_HEIGHT, HEMOGLOBIN]
 #############################################
 
-API_TOKEN = "b6ai0PI8aEEGrUGnMA18zAZsfqaBbFdD"
+from secret_keys import API_TOKEN
 API_URL = "https://syntheticmass.mitre.org/v1/fhir/"
 
 import os
