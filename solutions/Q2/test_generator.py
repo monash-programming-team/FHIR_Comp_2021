@@ -156,8 +156,8 @@ pracs = list(data["practitioners"].keys())
 for x in range(n_easy):
     start = random.randint(0, len(pracs) - 10)
     k = random.randint(0, 3)
-    d = random.randint(0, 100)
-    c = random.randint(0, 20)
+    d = random.randint(0, 30)
+    c = random.randint(0, 10)
     print(10, k, d, c)
     print(" ".join(pracs[start: start+10]))
 
@@ -165,16 +165,16 @@ sqrt = math.ceil(math.sqrt(len(pracs)))
 for x in range(n_medium):
     start = random.randint(0, len(pracs) - sqrt)
     k = random.randint(2, 7)
-    d = random.randint(0, 100)
-    c = random.randint(0, 20)
+    d = random.randint(20, 50)
+    c = random.randint(5, 15)
     print(sqrt, k, d, c)
     print(" ".join(pracs[start: start+sqrt]))
 
 for x in range(n_easy):
     start = random.randint(0, len(pracs) - 10)
     k = random.randint(4, 10)
-    d = random.randint(0, 100)
-    c = random.randint(0, 20)
+    d = random.randint(40, 100)
+    c = random.randint(10, 20)
     print(len(pracs)-10, k, d, c)
     print(" ".join(pracs[:start] + pracs[start+10:]))
 
