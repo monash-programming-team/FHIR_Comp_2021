@@ -11,11 +11,11 @@ $$
     C := \ln\left(\frac{||h_a - h_b||}{d \times n}\right),
 $$
 
-where ~d~ is dependant on the test case, and ~n~ is the number of patients with heights in the range ~h_a~ to ~h_b~.
+where ~d~ is dependant on the test case, and ~n~ is the number of patients with heights in the range ~h_a~ to ~h_b~, inclusive.
 
 After which, any patient with height between ~h_a~ and ~h_b~ can be tested with this method. Note that ~C~ can be negative.
 
-Your aim is to complete a series of generalisations with minimum cost, such that any patient can be tested.
+Your aim is to complete a series of generalisations with minimum cost, such that any patient can be tested. (The total cost of all generalisations, is the sum of all ~C~ for each generalisation, **plus** the total number of patients generalised (This ensures the result is positive for our test set))
 
 ## Input
 
@@ -41,12 +41,12 @@ Then, for each generalization, print one line containing two patient ids: One be
 
 We have a solution that does alright in generalising to all patients.
 
-You will begin to accrue points if your answers cost less than 125% of ours.
-You will stop getting points if your answers cost less than 95% of ours (You will get full score).
+You will begin to accrue points if your answers cost less than 115% of ours.
+You will stop getting points if your answers cost less than 97% of ours (You will get full score).
 
-* If you can beat 95% cost for 100 patients or less, you will score 20%
-* If you can beat 95% cost for 5000 patients or less, you will score 50%
-* If you can beat 95% cost for 100000 patients or less, you will score 100%
+* If you can beat 97% cost for 100 patients or less, you will score 20%
+* If you can beat 97% cost for 5000 patients or less, you will score 50%
+* If you can beat 97% cost for 100000 patients or less, you will score 100%
 
 ## Other
 

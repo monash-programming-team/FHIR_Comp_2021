@@ -30,7 +30,8 @@ def solve(patients):
     ]
 
 for x in range(tests):
-    d, n = list(map(int, input().split()))
+    d, n = list(map(float, input().split()))
+    n = int(n)
     patients, generalisations = solve(input().split())
     print(len(generalisations))
     for l, r in generalisations:

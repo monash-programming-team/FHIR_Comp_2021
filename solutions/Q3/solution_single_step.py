@@ -27,7 +27,8 @@ def solve(patients):
     return list(map(lambda x: x[1], sorted_values)), [[0, len(sorted_values)-1]]
 
 for x in range(tests):
-    d, n = list(map(int, input().split()))
+    d, n = list(map(float, input().split()))
+    n = int(n)
     patients, generalisations = solve(input().split())
     print(len(generalisations))
     for l, r in generalisations:

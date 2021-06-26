@@ -1,5 +1,6 @@
 import decimal
 import datetime
+import math
 
 filepath = input()
 
@@ -14,35 +15,46 @@ value_code = "8302-2"
 
 d = 0
 
-def solve(patients):   
+def solve_single(sorted_values):   
+    return list(map(lambda x: x[1], sorted_values)), [[0, len(sorted_values)-1]]
+
+def solve_all(sorted_values):    
+    return list(map(lambda x: x[1], sorted_values)), [
+        [x, x+1]
+        for x in range(len(sorted_values)-1)
+    ]
+
+for x in range(tests):
+    d, n = list(map(float, input().split()))
+    n = int(n)
     sorted_values = sorted([
         (min([
-            (datetime.datetime.fromisoformat(obs.effective), decimal.Decimal(obs.value["value"])) 
+            (datetime.datetime.fromisoformat(obs.effective), obs.value["value"])
             for obs_id in data['patients'][_id].observations 
             if (obs := data['observations'][obs_id]).code == value_code
         ])[1], _id)
-        for _id in patients
+        for _id in input().split()
     ])[::-1]
-
-    cur_left = 0
-    generalisations = []
-
-    for cur_right in range(1, len(sorted_values)):
-        # Is this next patient too steep?
-        height_diff = sorted_values[cur_right-1][0] - sorted_values[cur_right][0]
-        if height_diff < 2 * d:
-            # Better to keep apart - Smooth.
-            generalisations.append((cur_left, cur_right))
-            cur_left = cur_right
-    
-    if cur_left != len(sorted_values) - 1:
-        generalisations.append((cur_left, len(sorted_values)-1))
-    
-    return list(map(lambda x: x[1], sorted_values)), generalisations
-
-for x in range(tests):
-    d, n = list(map(int, input().split()))
-    patients, generalisations = solve(input().split())
-    print(len(generalisations))
-    for l, r in generalisations:
-        print(patients[l], patients[r])
+    patients, generalisations1 = solve_single(sorted_values)
+    patients, generalisations2 = solve_all(sorted_values)
+    cost1 = 0
+    cost2 = 0
+    for pat1, pat2 in generalisations1:
+        cost1 += math.log(
+            # Difference in height
+            abs(sorted_values[pat1][0] - sorted_values[pat2][0]) / 
+            # d * (difference in position + 1)
+            (d * (abs(pat1 - pat2) + 1))
+        )
+    for pat1, pat2 in generalisations2:
+        cost2 += math.log(
+            # Difference in height
+            abs(sorted_values[pat1][0] - sorted_values[pat2][0]) / 
+            # d * (difference in position + 1)
+            (d * (abs(pat1 - pat2) + 1))
+        )
+    if cost2 < cost1:
+        generalisations1, generalisations2 = generalisations2, generalisations1
+    print(len(generalisations1))
+    for pat1, pat2 in generalisations1:
+        print(patients[pat1], patients[pat2])
