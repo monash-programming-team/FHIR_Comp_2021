@@ -12,7 +12,7 @@ NUMBER_OF_PRACTITIONERS = 1000
 NUMBER_OF_ORGANIZATIONS = 100
 
 # MAPPING AMOUNTS
-ENCOUNTERS_PER_PATIENT = [1.01, 2.05]
+ENCOUNTERS_PER_PATIENT = [1.01, 2.01]
 
 # MAXIMUM REQUIRED QUERIES
 MAX_NUMBER_ENCOUNTERS = int(NUMBER_PATIENTS * (sum([math.floor(ENCOUNTERS_PER_PATIENT[0] + random.random() * (ENCOUNTERS_PER_PATIENT[1] - ENCOUNTERS_PER_PATIENT[0])) for _ in range(1000)]) / 1000 + 0.05))
@@ -39,13 +39,13 @@ def distribution(x):
         (relative[1] + 1)/2 * size[1] + bottom_left[1]
     ]
     
-OBSERVATION_PRESSURE = ["55284-4", "Blood_Pressure", [1.01, 2.05], {
+OBSERVATION_PRESSURE = ["55284-4", "Blood_Pressure", [1.01, 2.01], {
     "value_generator": (lambda x: distribution(x))
 }]
 OBSERVATION_PLATELET = [
     "32623-1",
     "Platelet Mean Volume",
-    [1.01, 2.05],
+    [1.01, 2.01],
     {"value_generator": (lambda x: np.random.normal(15, 5))},
 ]
 def bionic_map(obj, v):
@@ -59,8 +59,8 @@ RANDOM_BIONIC_CHOICES = [r.get_random_word(hasDictionaryDef="true", includePartO
 
 BIONIC_DATA = ["777-3", "Bionic Enhancement", [1.01, 1.01], {"value_generator": (lambda x: random.choice(RANDOM_BIONIC_CHOICES)), "object_map": bionic_map}]
 
-BODY_WEIGHT = ["29463-7", "Body Weight", [1.01, 2.05], {"value_generator": (lambda x: 45 + random.random() * 120)}]
-BODY_HEIGHT = ["8302-2", "Body Height", [1.01, 2.05], {"value_generator": (lambda x: 140 + random.random() * 65)}]
+BODY_WEIGHT = ["29463-7", "Body Weight", [1.01, 2.01], {"value_generator": (lambda x: 45 + random.random() * 120)}]
+BODY_HEIGHT = ["8302-2", "Body Height", [1.01, 2.01], {"value_generator": (lambda x: 140 + random.random() * 65)}]
 
 HEMOGLOBIN = ["718-7", "Hemoglobin [Mass/volume] in Blood", [1.01, 1.01], {"value_generator": (lambda x: 10 + random.random() * 30)}]
 
