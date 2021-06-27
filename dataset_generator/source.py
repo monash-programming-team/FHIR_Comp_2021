@@ -6,7 +6,7 @@ from random_word import RandomWords
 r = RandomWords()
 
 # TOTAL AMOUNTS
-NUMBER_PATIENTS = 100000
+NUMBER_PATIENTS = 5000
 # This is the maximum number of practitioners it seems?
 NUMBER_OF_PRACTITIONERS = 1000
 NUMBER_OF_ORGANIZATIONS = 100
