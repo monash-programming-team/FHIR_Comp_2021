@@ -55,7 +55,7 @@ def bionic_map(obj, v):
     obj["valueQuantity"] = {"value": v}
     return obj
 
-RANDOM_BIONIC_CHOICES = [r.get_random_word(hasDictionaryDef="true", includePartOfSpeech="noun") for _ in range(math.ceil(math.sqrt(NUMBER_PATIENTS)))]
+RANDOM_BIONIC_CHOICES = [word for _ in range(math.ceil(math.sqrt(NUMBER_PATIENTS))) if (word := r.get_random_word(hasDictionaryDef="true", includePartOfSpeech="noun")) is not None]
 
 BIONIC_DATA = ["777-3", "Bionic Enhancement", [1.01, 1.01], {"value_generator": (lambda x: random.choice(RANDOM_BIONIC_CHOICES)), "object_map": bionic_map}]
 
