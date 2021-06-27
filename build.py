@@ -11,7 +11,7 @@ parser.add_argument("--no-dataset", action="store_false", dest="dataset")
 parser.add_argument("--no-upload", action="store_false", dest="upload")
 parser.add_argument("-o", "--override", type=str, default="")
 
-GRADING_FOLDERS = ["Q1", "Q2", "Q3", "Q4"]
+GRADING_FOLDERS = ["Q1", "Q2", "Q3", "Q4", "Q7"]
 PROBLEM_NAMES = {
     "Q1": "datatest",
     "Q2": "bionic",
@@ -19,6 +19,7 @@ PROBLEM_NAMES = {
     "Q4": "batchtesting", 
     "Q5": "extraweight", 
     "Q6": "intertest",
+    "Q7": "sample",
 }
 
 def main():
