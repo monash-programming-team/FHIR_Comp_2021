@@ -3,6 +3,7 @@ import argparse, os, sys
 import subprocess
 import zipfile
 from solutions.build_soln import main as compile_soln
+from paramiko import SSHClient
 from secret_keys import JUDGE_IP
 
 parser = argparse.ArgumentParser()
@@ -31,13 +32,17 @@ def main():
         from dataset_generator.source import main as generate_data
         print("GENERATING DATA...")
         generate_data()
-        if args.upload:
-            print("UPLOADING DATA...")
-            subprocess.run(f"scp dataset/build/encounters.json ubuntu@{JUDGE_IP}:/home/ubuntu/problems/data/dataset/encounters.json".split())
-            subprocess.run(f"scp dataset/build/observations.json ubuntu@{JUDGE_IP}:/home/ubuntu/problems/data/dataset/observations.json".split())
-            subprocess.run(f"scp dataset/build/organizations.json ubuntu@{JUDGE_IP}:/home/ubuntu/problems/data/dataset/organizations.json".split())
-            subprocess.run(f"scp dataset/build/patients.json ubuntu@{JUDGE_IP}:/home/ubuntu/problems/data/dataset/patients.json".split())
-            subprocess.run(f"scp dataset/build/practitioners.json ubuntu@{JUDGE_IP}:/home/ubuntu/problems/data/dataset/practitioners.json".split())
+    if args.upload:
+        print("UPLOADING DATA...")
+        ssh = SSHClient()
+        ssh.load_system_host_keys()
+        ssh.connect(f"ubuntu@{JUDGE_IP}:/home/ubuntu/problems/data")
+        ssh.exec_command("rm -r dataset")
+        ssh.exec_command("mkdir dataset")
+        for sub in ["encounters", "observations", "organizations", "patients", "practitioners"]:
+            ssh.exec_command(f"mkdir dataset/{sub}")
+            for f in os.listdir(f"dataset/build/{sub}"):
+                subprocess.run(f"scp dataset/build/{sub}/{f} ubuntu@{JUDGE_IP}:/home/ubuntu/problems/data/dataset/{sub}/{f}".split())
 
     for f in os.listdir("solutions"):
         f_p = os.path.join("solutions", f)
