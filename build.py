@@ -32,17 +32,17 @@ def main():
         from dataset_generator.source import main as generate_data
         print("GENERATING DATA...")
         generate_data()
-    if args.upload:
-        print("UPLOADING DATA...")
-        ssh = SSHClient()
-        ssh.load_system_host_keys()
-        ssh.connect(f"ubuntu@{JUDGE_IP}:/home/ubuntu/problems/data")
-        ssh.exec_command("rm -r dataset")
-        ssh.exec_command("mkdir dataset")
-        for sub in ["encounters", "observations", "organizations", "patients", "practitioners"]:
-            ssh.exec_command(f"mkdir dataset/{sub}")
-            for f in os.listdir(f"dataset/build/{sub}"):
-                subprocess.run(f"scp dataset/build/{sub}/{f} ubuntu@{JUDGE_IP}:/home/ubuntu/problems/data/dataset/{sub}/{f}".split())
+        if args.upload:
+            print("UPLOADING DATA...")
+            ssh = SSHClient()
+            ssh.load_system_host_keys()
+            ssh.connect(JUDGE_IP, username="ubuntu")
+            ssh.exec_command("rm -r problems/data/dataset")
+            ssh.exec_command("mkdir problems/data/dataset")
+            for sub in ["encounters", "observations", "organizations", "patients", "practitioners"]:
+                ssh.exec_command(f"mkdir problems/data/dataset/{sub}")
+                for f in os.listdir(f"dataset/build/{sub}"):
+                    subprocess.run(f"scp dataset/build/{sub}/{f} ubuntu@{JUDGE_IP}:/home/ubuntu/problems/data/dataset/{sub}/{f}".split())
 
     for f in os.listdir("solutions"):
         f_p = os.path.join("solutions", f)
