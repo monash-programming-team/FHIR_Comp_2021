@@ -54,7 +54,6 @@ class Grader(InteractiveGrader):
             interactor.writeln(f"{start} {start+length}")
 
             n_queries = 0
-            # TODO: Change this to a specific value so that at 98% 4/9ths solution fails.
             expected_queries = math.log((r - l + 1) * (r - l) / 2, 3) + 3
 
             while True:
@@ -63,13 +62,12 @@ class Grader(InteractiveGrader):
                     r1 = interactor.readtoken().decode('utf-8')
                     r2 = interactor.readtoken().decode('utf-8')
                     if (r1 == in_data[first][0] and r2 == in_data[second][0]) or (r1 == in_data[second][0] and r2 == in_data[first][0]):
-                        if n_queries < expected_queries:
-                            if x < 60:
-                                correct += 0.3333
-                            elif x < 80:
-                                correct += 1.5
-                            else:
-                                correct += 5
+                        if x < 60:
+                            correct += 0.3333
+                        elif x < 80:
+                            correct += 1.5
+                        else:
+                            correct += 5
                     break
                 if query == "Q":
                     n_queries += 1
@@ -77,7 +75,7 @@ class Grader(InteractiveGrader):
                     a2 = interactor.readint()
                     ids1 = [interactor.readtoken().decode('utf-8') for _ in range(a1)]
                     ids2 = [interactor.readtoken().decode('utf-8') for _ in range(a2)]
-                    if n_queries > 1000:
+                    if n_queries > expected_queries:
                         interactor.writeln("FINISH")
                         break
                     if len(set(ids1 + ids2)) != len(ids1 + ids2):
