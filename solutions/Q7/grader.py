@@ -10,12 +10,12 @@ class Grader(InteractiveGrader):
         # [0] = number of test cases
         # [1:] = test case inputs
 
-        tests = len(in_data)
+        tests = int(in_data[0])
         interactor.writeln(tests)
 
         correct = 0
 
-        for x in range(tests):
+        for x in range(1, tests+1):
             interactor.writeln(in_data[x])
             if interactor.readint() == int(in_data[x]):
                 correct += 1

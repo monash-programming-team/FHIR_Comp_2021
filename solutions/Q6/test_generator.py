@@ -146,7 +146,7 @@ data = read_dataset("dataset/build")
 import datetime
 import decimal
 
-value_code = "32623-1"
+value_code = "718-7"
 
 patients_sorted = sorted([
     (min([

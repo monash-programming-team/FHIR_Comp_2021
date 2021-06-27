@@ -66,7 +66,7 @@ class Grader(InteractiveGrader):
                 query = interactor.readtoken().decode('utf-8')
                 if query == "A":
                     patient = interactor.readtoken().decode('utf-8')
-                    if (patient == in_data[best][0] and n_queries <= expected_queries):
+                    if (patient == in_data[best][0]):
                         if x < 60:
                             correct += 0.3333
                         elif x < 80:
@@ -77,6 +77,9 @@ class Grader(InteractiveGrader):
                 if query == "Q":
                     n_queries += 1
                     patient = interactor.readtoken().decode('utf-8')
+                    if n_queries > expected_queries:
+                        interactor.writeln("FINISH")
+                        break
                     if patient not in v_mapping:
                         return CheckerResult(False, 0, f"I don't understand this patient?")
                     if int(v_mapping[patient] <= in_data[best][1] + 1e-9) + int(lying[n_queries % 7]) == 1:
