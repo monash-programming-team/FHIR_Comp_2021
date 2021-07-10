@@ -9,6 +9,7 @@ class Grader(InteractiveGrader):
 
         # In data: list of patients, with blood values.
         in_data = list(map(lambda x: (x.split(" ")[0], float(x.split(" ")[1])), filter(bool, case.input_data().decode('utf-8').split("\n"))))
+        print(len(in_data), file=sys.stderr)
 
         dataset_path = "/problems/data/dataset"
         interactor.writeln(dataset_path)
@@ -27,6 +28,7 @@ class Grader(InteractiveGrader):
 
         tests = 60 + 20 + 10
         interactor.writeln(tests)
+        print(tests, file=sys.stderr)
 
         correct = 0
 
@@ -34,6 +36,7 @@ class Grader(InteractiveGrader):
             d[0]: d[1]
             for d in in_data
         }
+        print(len(v_mapping.keys()), file=sys.stderr)
 
         lying = [random.randint(0, 1) for _ in range(7)]
 
@@ -58,6 +61,7 @@ class Grader(InteractiveGrader):
                 best = random.randint(l, r)
                 break
             interactor.writeln(f"{start} {start+length}")
+            print(f"{start} {start+length}", file=sys.stderr)
 
             n_queries = 0
             expected_queries = 30
@@ -65,6 +69,7 @@ class Grader(InteractiveGrader):
             while True:
                 query = interactor.readtoken().decode('utf-8')
                 if query == "A":
+                    print("GUESS", file=sys.stderr)
                     patient = interactor.readtoken().decode('utf-8')
                     if (patient == in_data[best][0]):
                         if x < 60:
@@ -74,17 +79,23 @@ class Grader(InteractiveGrader):
                         else:
                             correct += 5
                     break
-                if query == "Q":
+                elif query == "Q":
                     n_queries += 1
                     patient = interactor.readtoken().decode('utf-8')
                     if n_queries > expected_queries:
                         interactor.writeln("FINISH")
+                        print("FINISH", file=sys.stderr)
                         break
                     if patient not in v_mapping:
-                        return CheckerResult(False, 0, f"I don't understand this patient?")
+                        print(len([key for key in v_mapping.keys() if key.startswith(patient[:2])]), file=sys.stderr)
+                        return CheckerResult(False, 0, f"Unknown patient {patient}")
                     if int(v_mapping[patient] <= in_data[best][1] + 1e-9) + int(lying[n_queries % 7]) == 1:
                         interactor.writeln("DANGEROUS")
+                        print("DANGEROUS", file=sys.stderr)
                     else:
                         interactor.writeln("SAFE")
+                        print("SAFE", file=sys.stderr)
+                else:
+                    return CheckerResult(False, 0, query, interactor.read())
 
         return CheckerResult(True, case.points * correct / 100, f"Earned {correct:.2f}%")

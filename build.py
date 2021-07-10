@@ -70,6 +70,9 @@ def main():
                 # SCP
                 subprocess.run(f"scp solutions/{f}/grader.py ubuntu@{JUDGE_IP}:/home/ubuntu/problems/{PROBLEM_NAMES[f]}/grader.py".split())
                 subprocess.run(f"scp solutions/{f}/archive.zip ubuntu@{JUDGE_IP}:/home/ubuntu/problems/{PROBLEM_NAMES[f]}/archive.zip".split())
+                subprocess.run(f"scp solutions/{f}/1.in ubuntu@{JUDGE_IP}:/home/ubuntu/problems/{PROBLEM_NAMES[f]}/1.in".split())
+                if os.path.exists(f"solutions/{f}/1.out"):
+                    subprocess.run(f"scp solutions/{f}/1.out ubuntu@{JUDGE_IP}:/home/ubuntu/problems/{PROBLEM_NAMES[f]}/1.out".split())
                 # Remove archive.
                 os.remove(f"solutions/{f}/archive.zip")
 

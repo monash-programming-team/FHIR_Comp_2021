@@ -10,6 +10,9 @@ class Grader(InteractiveGrader):
         # [0] = number of test cases
         # [1:] = test case inputs
 
+        dataset_path = "/problems/data/dataset"
+        interactor.writeln(dataset_path)
+
         tests = int(in_data[0])
         interactor.writeln(tests)
 

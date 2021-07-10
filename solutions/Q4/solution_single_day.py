@@ -15,7 +15,7 @@ for case in range(1, t+1):
     # vals[x][y] = patient y, value code x.
     vals = [
         [
-            min([
+            max([
                 (datetime.datetime.fromisoformat(obs.effective), decimal.Decimal(obs.component[x]["valueQuantity"]["value"])) 
                 for obs_id in data['patients'][_id].observations 
                 if (obs := data['observations'][obs_id]).code == "55284-4"

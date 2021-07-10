@@ -28,7 +28,7 @@ for x in range(tests):
     d, n = list(map(float, input().split()))
     n = int(n)
     sorted_values = sorted([
-        (min([
+        (max([
             (datetime.datetime.fromisoformat(obs.effective), obs.value["value"])
             for obs_id in data['patients'][_id].observations 
             if (obs := data['observations'][obs_id]).code == value_code

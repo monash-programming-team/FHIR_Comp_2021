@@ -80,28 +80,33 @@ class Grader(InteractiveGrader):
                         break
                     if len(set(ids1 + ids2)) != len(ids1 + ids2):
                         return CheckerResult(False, 0, f"Non-unique weighing given.")
-                    if len(ids1) > len(ids2):
-                        interactor.writeln("LEFT")
-                    elif len(ids1) < len(ids2):
-                        interactor.writeln("RIGHT")
-                    else:
-                        if in_data[first][0] in ids1:
-                            if in_data[second][0] in ids2:
-                                interactor.writeln("EQUAL")
-                            else:
-                                interactor.writeln("LEFT")
-                        elif in_data[first][0] in ids2:
-                            if in_data[second][0] in ids1:
-                                interactor.writeln("EQUAL")
-                            else:
+                    if in_data[first][0] in ids1:
+                        if in_data[second][0] in ids2:
+                            if len(ids1) > len(ids2):
                                 interactor.writeln("RIGHT")
+                            elif len(ids1) < len(ids2):
+                                interactor.writeln("LEFT")
+                            else:
+                                interactor.writeln("EQUAL")
                         else:
-                            if in_data[second][0] in ids1:
-                                interactor.writeln("LEFT")
-                            elif in_data[second][0] in ids2:
+                            interactor.writeln("LEFT")
+                    elif in_data[first][0] in ids2:
+                        if in_data[second][0] in ids1:
+                            if len(ids1) > len(ids2):
                                 interactor.writeln("RIGHT")
+                            elif len(ids1) < len(ids2):
+                                interactor.writeln("LEFT")
                             else:
                                 interactor.writeln("EQUAL")
+                        else:
+                            interactor.writeln("RIGHT")
+                    else:
+                        if in_data[second][0] in ids1:
+                            interactor.writeln("LEFT")
+                        elif in_data[second][0] in ids2:
+                            interactor.writeln("RIGHT")
+                        else:
+                            interactor.writeln("EQUAL")
 
         correct = max(correct, 0)
         return CheckerResult(True, case.points * correct / 100, f"Earned {correct:.2f}\%")

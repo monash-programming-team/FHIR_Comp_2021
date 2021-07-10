@@ -24,7 +24,7 @@ def solve(line):
     # For each patient, find the latest observation with the correct value code.
     # We are guaranteed that every patient has at least one of these records.
     sorted_values = sorted([
-        (min([
+        (max([
             (datetime.datetime.fromisoformat(obs.effective), decimal.Decimal(obs.value["value"])) 
             for obs_id in data['patients'][_id].observations 
             if (obs := data['observations'][obs_id]).code == value_code

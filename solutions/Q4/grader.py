@@ -148,7 +148,7 @@ data = read_dataset("/problems/data/dataset")
 
 vals = {
     _id: [
-        min([
+        max([
             (datetime.datetime.fromisoformat(obs.effective), obs.component[x]["valueQuantity"]["value"]) 
             for obs_id in data['patients'][_id].observations 
             if (obs := data['observations'][obs_id]).code == "55284-4"

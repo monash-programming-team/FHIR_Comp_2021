@@ -184,7 +184,7 @@ class Grader(InteractiveGrader):
             interactor.writeln(in_data[2*x+2])
             patients = in_data[2*x+2].split()
             sorted_values = sorted([
-                (min([
+                (max([
                     (datetime.datetime.fromisoformat(obs.effective), obs.value["value"]) 
                     for obs_id in data['patients'][_id].observations 
                     if (obs := data['observations'][obs_id]).code == "8302-2"

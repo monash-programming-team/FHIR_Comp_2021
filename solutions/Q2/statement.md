@@ -22,9 +22,9 @@ Input will start with the dataset path, on a single line
 
 Next, a single integer will be given on the next line, this will be the number of test cases, ~t~. ~2t~ lines follow.
 
-Each test start with a single line containing the values ~n~, ~k~, ~D~ and ~C~. ~n~ is the number of practitioners, and the other three are the values mentioned earlier in the problem.
+Each test will start with a single line containing the values ~n~, ~k~, ~D~ and ~C~. ~n~ is the number of practitioners, and the other three are the values mentioned earlier in the problem.
 
-There will be a second line, containing ~n~ space separated practitioner ids. We want to give bionic enhancement to all patients that have one of these practitioners as their `generalPractitioner`.
+There will be a second line, containing ~n~ space separated practitioner ids. We want to give bionic enhancements to all patients that have one of these practitioners as their `generalPractitioner`.
 
 ## Output
 
@@ -32,16 +32,17 @@ First, once you have read the dataset, print "Ready!"
 
 Next, for each test case, print the minimum cost you can incur while still giving everyone their preffered bionic enhancement.
 
+## Problem bounds (After contest scoring)
+
+The total number of patients referenced from practitioners across all test cases will not exceed ~10^7~.
+The total number of patients referenced from practitioners in a single test case will not exceed ~10^5~.
+
 ## Scoring
 
 * Solving the problem for all tests containing 10 practitioners or less will get you 20% score.
-* Solving the problem for all tests containing TODO practitioners or less will get you 50% score.
-* Solving the problem for all tests containing TODO practitioners or less will get you 100% score.
+* Solving the problem for all tests containing the square root of all the practitioners in the dataset or less will get you 50% score.
+* Solving the problem for all tests containing all but 10 of the practitioners in the dataset or less will get you 100% score.
 
 ## Other
 
 Every patient will have exactly one observation for Bionic Enhancement.
-
-## Example run
-
-TODO

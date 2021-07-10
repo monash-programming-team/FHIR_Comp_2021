@@ -17,18 +17,25 @@ So if the left dish has a higher surface tension than the right dish, you know t
 The first line of input will contain the filepath to the dataset. After you've digested the data at this path, you should print "Ready!"
 
 After this, the problem begins. The next line of input will contain an integer ~T~, the number of tests.
-~T~ lines then follow. Each of these lines will contain two numbers, ~l~ and ~r~, separated by spaces. You know that the two fake samples have hemoglobin readings somewhere inbetween ~l~ and ~r~.
+~T~ lines then follow. Each of these lines will contain two numbers, ~l~ and ~r~, separated by spaces. You know that the two fake samples have `Hemoglobin [Mass/volume] in Blood` readings somewhere inbetween ~l~ and ~r~.
 
 After this, interaction begins.
 You print one of two types of queries:
 
-* Questions: a `Q`, followed by two numbers, ~l_p, r_p~, the number of samples on the left and right dishes, respectively. After this the ~l_r + l_p~ patient ids follow. The Judge will respond with either LEFT, RIGHT or EQUAL - the side of the sample with *higher* surface tension.
+* Questions: a `Q`, followed by two numbers, ~l_p, r_p~, the number of samples on the left and right dishes, respectively. After this the ~l_r + l_p~ unique patient ids follow.
 * Answers: an `A`, followed by two patient ids. These are the patients you believe have the fake blood.
 
-As soon as you make a guess for the answer, you should go to the next test case.
-If you do more than 100 question queries, the judge will respond with a FINISH, and you should move to the next test case.
+The maximum number of queries you can make in a single test case is:
 
-## Problem bounds
+$$
+    E := \log_3\left(\frac{p(p-1)}{2}\right) + 3
+$$
+
+The Judge will respond with either `LEFT`, `RIGHT` or `EQUAL` - the side of the sample with *higher* surface tension. Or if you have made more than ~E~ queries, `FINISH`, and you should move to the next test case.
+
+After answering, you should also move to the next test case.
+
+## Problem bounds (After contest scoring)
 
 The total number of tests will not exceed 100.
 
@@ -36,16 +43,18 @@ The total number of tests will not exceed 100.
 
 A run time error, or incorrectly formatted print statement, will instantly net you 0 score.
 
-For every test case, if you can solve the problem correctly after TODO queries, you will get the score for this test case.
-
 * Solving the problem for all tests containing 3% of the patients or less will get you 20% score.
 * Solving the problem for all tests containing 30% of the patients or less will get you 50% score.
 * Solving the problem for all tests containing 98% of the patients or less will get you 100% score.
 
+## Other
+
+All references to `Hemoglobin [Mass/volume] in Blood` references the latest observation for that patient. Every patient will have at least one observation for `Hemoglobin [Mass/volume] in Blood`.
+
 ## Example run
 
 ```text
-Judge: dataset/build
+Judge: build
 Code: Ready!
 Judge: 1
 Judge: 4 10 
@@ -56,7 +65,3 @@ Code: Q 1 1 ID_0003 ID_0004
 Judge: EQUAL
 Code: A ID_0001 ID_0005
 ```
-
-## Other
-
-All references to Hemoglobin [Mass/volume] in Blood references the latest observation for that patient. Every patient will have at least one observation for Hemoglobin [Mass/volume] in Blood.

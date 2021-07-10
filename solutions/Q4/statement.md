@@ -55,7 +55,3 @@ You will stop getting points if your answers cost less than 95% of ours (You wil
 ## Other
 
 All references to Systolic / Diastolic Blood Pressure references the latest observation for that patient. Every patient will have at least one observation for Systolic / Diastolic Blood Pressure.
-
-## Example run
-
-TODO

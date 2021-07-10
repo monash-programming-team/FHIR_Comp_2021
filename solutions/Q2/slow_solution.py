@@ -22,7 +22,7 @@ for case in range(t):
     prac_ids = input().split()
     patient_ids = list(set(sum([data['practitioners'][_id].patients for _id in prac_ids], start=[])))
     vals = list(sorted([
-        (min([
+        (max([
             (datetime.datetime.fromisoformat(obs.effective), obs.value["value"]) 
             for obs_id in data['patients'][_id].observations 
             if (obs := data['observations'][obs_id]).code == value_code

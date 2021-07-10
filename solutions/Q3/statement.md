@@ -3,7 +3,7 @@
 You've developed a new method for identifying cancer in patients!
 However, this method is currently only tested on a single patient, and you want to generalise this method to fit all patients.
 
-Generalising the method is slightly complicated, and depends on a patient's height. The single patient you've developed this method for is the tallest of patients you are trying to generalise for.
+Generalising the method is slightly complicated, and depends on a patient's Body Height. The single patient you've developed this method for is the *tallest* of patients you are trying to generalise for.
 
 In order to generalise the method, you need to choose two patients, where for one the method has been generalised, and the other it hasn't (With heights ~h_a~ and ~h_b~). We can then generalise with cost
 
@@ -50,8 +50,4 @@ You will stop getting points if your answers cost less than 97% of ours (You wil
 
 ## Other
 
-All references to Body Height references the latest observation for that patient. Every patient will have at least one observation for Body Height.
-
-## Example run
-
-TODO
+All references to `Body Height` references the latest observation for that patient. Every patient will have at least one observation for `Body Height`.

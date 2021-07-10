@@ -16,7 +16,7 @@ d = 0
 
 def solve(patients):   
     sorted_values = sorted([
-        (min([
+        (max([
             (datetime.datetime.fromisoformat(obs.effective), decimal.Decimal(obs.value["value"])) 
             for obs_id in data['patients'][_id].observations 
             if (obs := data['observations'][obs_id]).code == value_code
