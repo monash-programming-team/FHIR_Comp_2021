@@ -96,6 +96,6 @@ class Grader(InteractiveGrader):
                         interactor.writeln("SAFE")
                         print("SAFE", file=sys.stderr)
                 else:
-                    return CheckerResult(False, 0, query, interactor.read())
+                    return CheckerResult(False, 0, f"Expected Q or A, got {query}")
 
         return CheckerResult(True, case.points * correct / 100, f"Earned {correct:.2f}%")

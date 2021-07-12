@@ -55,24 +55,29 @@ def main():
                     compile_soln(os.path.join(f_p, f2))
             # Generate test data
             if os.path.exists(os.path.join(f_p, "test_generator.py")):
-                with open(f"solutions/{f}/1.in", "w") as test:
-                    subprocess.run(f"python -m solutions.{f}.test_generator".split(), stdout=test)
+                subprocess.run(f"python -m solutions.{f}.test_generator".split())
             if f in GRADING_FOLDERS:
-                with open(f"solutions/{f}/1.in", "r") as test_in:
-                    with open(f"solutions/{f}/1.out", "w") as test_out:
-                        subprocess.run(f"python -m solutions.{f}.solution_compiled".split(), stdin=test_in, stdout=test_out)
+                for x in range(1, 4):
+                    if os.path.exists(f"solutions/{f}/{x}.in"):
+                        with open(f"solutions/{f}/{x}.in", "r") as test_in:
+                            with open(f"solutions/{f}/{x}.out", "w") as test_out:
+                                subprocess.run(f"python -m solutions.{f}.solution_compiled".split(), stdin=test_in, stdout=test_out)
             if args.upload:
                 # Archive.
                 with zipfile.ZipFile(f"solutions/{f}/archive.zip", "w") as z:
-                    z.write(f"solutions/{f}/1.in", arcname="1.in")
-                    if os.path.exists(f"solutions/{f}/1.out"):
-                        z.write(f"solutions/{f}/1.out", arcname="1.out")
+                    for x in range(1, 4):
+                        if os.path.exists(f"solutions/{f}/{x}.in"):
+                            z.write(f"solutions/{f}/{x}.in", arcname=f"{x}.in")
+                        if os.path.exists(f"solutions/{f}/{x}.out"):
+                            z.write(f"solutions/{f}/{x}.out", arcname=f"{x}.out")
                 # SCP
                 subprocess.run(f"scp solutions/{f}/grader.py ubuntu@{JUDGE_IP}:/home/ubuntu/problems/{PROBLEM_NAMES[f]}/grader.py".split())
                 subprocess.run(f"scp solutions/{f}/archive.zip ubuntu@{JUDGE_IP}:/home/ubuntu/problems/{PROBLEM_NAMES[f]}/archive.zip".split())
-                subprocess.run(f"scp solutions/{f}/1.in ubuntu@{JUDGE_IP}:/home/ubuntu/problems/{PROBLEM_NAMES[f]}/1.in".split())
-                if os.path.exists(f"solutions/{f}/1.out"):
-                    subprocess.run(f"scp solutions/{f}/1.out ubuntu@{JUDGE_IP}:/home/ubuntu/problems/{PROBLEM_NAMES[f]}/1.out".split())
+                for x in range(1, 4):
+                    if os.path.exists(f"solutions/{f}/{x}.in"):
+                        subprocess.run(f"scp solutions/{f}/{x}.in ubuntu@{JUDGE_IP}:/home/ubuntu/problems/{PROBLEM_NAMES[f]}/{x}.in".split())
+                    if os.path.exists(f"solutions/{f}/{x}.out"):
+                        subprocess.run(f"scp solutions/{f}/{x}.out ubuntu@{JUDGE_IP}:/home/ubuntu/problems/{PROBLEM_NAMES[f]}/{x}.out".split())
                 # Remove archive.
                 os.remove(f"solutions/{f}/archive.zip")
 

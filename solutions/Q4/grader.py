@@ -171,10 +171,6 @@ class Grader(InteractiveGrader):
         # [0] = number of test cases
         # [1:] = test case inputs
 
-        # 5 tests, 10 patients, worth 20%: 4% p test
-        # 3 tests, 25 patients, worth 30%: 10% p test
-        # 2 tests, 40 patients, worth 50%: 25% p test
-
         dataset_path = "/problems/data/dataset"
         interactor.writeln(dataset_path)
 
@@ -226,11 +222,6 @@ class Grader(InteractiveGrader):
             # Assume that 95% of sol cost is best, and 125% of sol is 0 score. And linearly interpolate.
             pct = (1.25 * sol_cost - total_cost) / (0.3 * sol_cost)
             pct = max(min(pct, 1), 0)
-            if x < 5:
-                correct += 4 * pct
-            elif x < 8:
-                correct += 10 * pct
-            else:
-                correct += 25 * pct
+            correct += pct
 
-        return CheckerResult(True, case.points * correct / 100, f"Earned {correct:.2f}%")
+        return CheckerResult(True, case.points * correct / tests, f"Earned {correct * 100 / tests:.2f}%")

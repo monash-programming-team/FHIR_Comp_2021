@@ -8,7 +8,10 @@ class Grader(InteractiveGrader):
     def interact(self, case, interactor):
 
         # In data: list of patients, with blood values.
-        in_data = list(map(lambda x: (x.split(" ")[0], float(x.split(" ")[1])), filter(bool, case.input_data().decode('utf-8').split("\n"))))
+        in_data = case.input_data().decode('utf-8').split("\n")
+        diff = in_data[0]
+        in_data = in_data[1:]
+        in_data = list(map(lambda x: (x.split(" ")[0], float(x.split(" ")[1])), filter(bool, in_data)))
 
         dataset_path = "/problems/data/dataset"
         interactor.writeln(dataset_path)
@@ -21,37 +24,43 @@ class Grader(InteractiveGrader):
         # Ranges from 10-40
         # Distribution is uniform.
 
-        # 60 tests, 3% of population,  Worth 20%, 0.3333% each
-        # 20 tests, 30% of population, Worth 30%, 1.5% each
-        # 10 tests, 98% of population, Worth 50%, 5% each
-
-        tests = 60 + 20 + 10
+        if diff == "easy":
+            tests = 60
+        elif diff == "medium":
+            tests = 20
+        elif diff == "hard":
+            tests = 10
+        else:
+            raise ValueError()
         interactor.writeln(tests)
 
         correct = 0
 
         for x in range(tests):
             while True:
-                if x < 60:
-                    length = (random.random() * 1.5 + 1.5) / 100 * 30
-                elif x < 80:
-                    length = (random.random() * 15 + 15) / 100 * 30
+                if diff == "easy":
+                    length = math.floor(random.random() * len(in_data) * 0.01 + len(in_data) * 0.02)
+                elif diff == "medium":
+                    length = math.floor(random.random() * len(in_data) * 0.1 + len(in_data) * 0.2)
                 else:
-                    length = (random.random() * 2 + 96) / 100 * 30
-                start = in_data[0][1] + random.random()*(in_data[-1][1] - in_data[0][1] - length)
-                l, r = None, None
-                for y in range(len(in_data)):
-                    if in_data[y][1] >= start and l is None:
-                        l = y
-                    if in_data[y][1] <= start + length:
-                        r = y
+                    length = math.floor(random.random() * len(in_data) * 0.08 + len(in_data) * 0.9)
+                l = random.randint(0, len(in_data) - length)
+                r = l + length - 1
                 if r - l < 1: continue
+                if l == 0:
+                    start = in_data[0][1] - 0.01
+                else:
+                    start = (in_data[l][1] + in_data[l-1][1]) / 2
+                if r == len(in_data) - 1:
+                    end = in_data[-1][1] + 0.01
+                else:
+                    end = (in_data[r][1] + in_data[r+1][1]) / 2
                 first = random.randint(l, r)
                 while True:
                     second = random.randint(l, r)
                     if second != first: break
                 break
-            interactor.writeln(f"{start} {start+length}")
+            interactor.writeln(f"{start} {end}")
 
             n_queries = 0
             expected_queries = math.log((r - l + 1) * (r - l) / 2, 3) + 3
@@ -62,14 +71,9 @@ class Grader(InteractiveGrader):
                     r1 = interactor.readtoken().decode('utf-8')
                     r2 = interactor.readtoken().decode('utf-8')
                     if (r1 == in_data[first][0] and r2 == in_data[second][0]) or (r1 == in_data[second][0] and r2 == in_data[first][0]):
-                        if x < 60:
-                            correct += 0.3333
-                        elif x < 80:
-                            correct += 1.5
-                        else:
-                            correct += 5
+                        correct += 1
                     break
-                if query == "Q":
+                elif query == "Q":
                     n_queries += 1
                     a1 = interactor.readint()
                     a2 = interactor.readint()
@@ -107,6 +111,8 @@ class Grader(InteractiveGrader):
                             interactor.writeln("RIGHT")
                         else:
                             interactor.writeln("EQUAL")
+                else:
+                    return CheckerResult(False, 0, f"Got {query}")
 
         correct = max(correct, 0)
-        return CheckerResult(True, case.points * correct / 100, f"Earned {correct:.2f}\%")
+        return CheckerResult(True, case.points * correct / tests, f"Earned {correct / tests * 100:.2f}%")

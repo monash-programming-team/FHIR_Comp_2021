@@ -149,21 +149,26 @@ n_easy = 5   # 8 practitioners
 n_medium = 3 # 15 practitioners
 n_hard = 2   # 30 practitioners
 
-print("dataset/build")
-
-print(n_easy + n_medium + n_hard)
-
 patients = list(data["patients"].keys())
 
-for x in range(n_easy):
-    start = random.randint(0, len(patients) - 8)
-    print(" ".join(patients[start: start+8]))
+with open("solutions/Q4/1.in", "w") as f:
+    print("dataset/build", file=f)
+    print(n_easy, file=f)
+    for x in range(n_easy):
+        start = random.randint(0, len(patients) - 8)
+        print(" ".join(patients[start: start+8]), file=f)
 
-for x in range(n_medium):
-    start = random.randint(0, len(patients) - 15)
-    print(" ".join(patients[start: start+15]))
+with open("solutions/Q4/2.in", "w") as f:
+    print("dataset/build", file=f)
+    print(n_medium, file=f)
+    for x in range(n_medium):
+        start = random.randint(0, len(patients) - 15)
+        print(" ".join(patients[start: start+15]), file=f)
 
-for x in range(n_hard):
-    start = random.randint(0, len(patients) - 30)
-    print(" ".join(patients[start: start+30]))
+with open("solutions/Q4/3.in", "w") as f:
+    print("dataset/build", file=f)
+    print(n_hard, file=f)
+    for x in range(n_hard):
+        start = random.randint(0, len(patients) - 30)
+        print(" ".join(patients[start: start+30]), file=f)
 

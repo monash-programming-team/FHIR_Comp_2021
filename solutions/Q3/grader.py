@@ -159,10 +159,6 @@ class Grader(InteractiveGrader):
         # [0] = number of test cases
         # [1:] = test case inputs
 
-        # 50 tests, 3%, worth 20%: 0.4% p test
-        # 20 tests, 30%, worth 30%: 1.5% p test
-        # 5 tests, 98%, worth 50%: 10% p test
-
         dataset_path = "/problems/data/dataset"
         interactor.writeln(dataset_path)
 
@@ -237,11 +233,6 @@ class Grader(InteractiveGrader):
             print(sol_cost + len(patients), total_cost + len(patients), file=sys.stderr)
             pct = (1.15 * (sol_cost + len(patients)) - total_cost - len(patients)) / (0.18 * (sol_cost + len(patients)))
             pct = max(min(pct, 1), 0)
-            if x < 50:
-                correct += 0.4 * pct
-            elif x < 70:
-                correct += 1.5 * pct
-            else:
-                correct += 10 * pct
+            correct += pct
 
-        return CheckerResult(True, case.points * correct / 100, f"Earned {correct:.2f}%")
+        return CheckerResult(True, case.points * correct / tests, f"Earned {correct / tests * 100:.2f}%")

@@ -157,6 +157,7 @@ patients_sorted = sorted([
     for _id in data['patients']
 ])
 
-for v, _id in patients_sorted:
-    print(_id, v)
+with open(f"solutions/Q5/1.in", "w") as f:
+    for v, _id in patients_sorted:
+        print(_id, v, file=f)
 

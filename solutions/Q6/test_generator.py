@@ -157,6 +157,18 @@ patients_sorted = sorted([
     for _id in data['patients']
 ])
 
-for v, _id in patients_sorted:
-    print(_id, v)
+with open(f"solutions/Q6/1.in", "w") as f:
+    print("easy", file=f)
+    for v, _id in patients_sorted:
+        print(_id, v, file=f)
+
+with open(f"solutions/Q6/2.in", "w") as f:
+    print("medium", file=f)
+    for v, _id in patients_sorted:
+        print(_id, v, file=f)
+
+with open(f"solutions/Q6/3.in", "w") as f:
+    print("hard", file=f)
+    for v, _id in patients_sorted:
+        print(_id, v, file=f)
 

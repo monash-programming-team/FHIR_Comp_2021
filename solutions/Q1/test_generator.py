@@ -149,25 +149,30 @@ n_easy = 50   # 3% patients
 n_medium = 20 # 30% patients
 n_hard = 5   # 98% patients
 
-print("dataset/build")
-
-print(n_easy + n_medium + n_hard)
-
 patients = list(data["patients"].keys())
 pct = len(patients) // 100
 
-for x in range(n_easy):
-    start = random.randint(0, len(patients) - 3 * pct)
-    n = random.randint(3 * pct - 5, 3 * pct + 5)
-    print(n, 3 * pct, " ".join(patients[start: start+3 * pct]))
+with open("solutions/Q1/1.in", "w") as f:
+    print("dataset/build", file=f)
+    print(n_easy, file=f)
+    for x in range(n_easy):
+        start = random.randint(0, len(patients) - 3 * pct)
+        n = random.randint(3 * pct - 5, 3 * pct + 5)
+        print(n, 3 * pct, " ".join(patients[start: start+3 * pct]), file=f)
 
-for x in range(n_medium):
-    start = random.randint(0, len(patients) - 30 * pct)
-    n = random.randint(30 * pct - 30, 30 * pct + 30)
-    print(n, 30 * pct, " ".join(patients[start: start+30 * pct]))
+with open("solutions/Q1/2.in", "w") as f:
+    print("dataset/build", file=f)
+    print(n_medium, file=f)
+    for x in range(n_medium):
+        start = random.randint(0, len(patients) - 30 * pct)
+        n = random.randint(30 * pct - 30, 30 * pct + 30)
+        print(n, 30 * pct, " ".join(patients[start: start+30 * pct]), file=f)
 
-for x in range(n_easy):
-    start = random.randint(0, len(patients) - 2 * pct)
-    n = random.randint(98 * pct - 100, 98 * pct + 100)
-    print(n, len(patients) - 2 * pct, " ".join(patients[:start] + patients[start+2 * pct:]))
+with open("solutions/Q1/3.in", "w") as f:
+    print("dataset/build", file=f)
+    print(n_hard, file=f)
+    for x in range(n_hard):
+        start = random.randint(0, len(patients) - 2 * pct)
+        n = random.randint(98 * pct - 100, 98 * pct + 100)
+        print(n, len(patients) - 2 * pct, " ".join(patients[:start] + patients[start+2 * pct:]), file=f)
 

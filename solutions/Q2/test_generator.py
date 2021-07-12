@@ -149,34 +149,39 @@ n_easy = 10   # About 10 practitioners
 n_medium = 5 # sqrt practitioners
 n_hard = 3   # all minus 10 practitioners
 
-print("dataset/build")
-
-print(n_easy + n_medium + n_hard)
-
 pracs = list(data["practitioners"].keys())
 
-for x in range(n_easy):
-    start = random.randint(0, len(pracs) - 10)
-    k = random.randint(0, 3)
-    d = random.randint(0, 30)
-    c = random.randint(0, 10)
-    print(10, k, d, c)
-    print(" ".join(pracs[start: start+10]))
+with open("solutions/Q2/1.in", "w") as f:
+    print("dataset/build", file=f)
+    print(n_easy, file=f)
+    for x in range(n_easy):
+        start = random.randint(0, len(pracs) - 10)
+        k = random.randint(0, 3)
+        d = random.randint(0, 30)
+        c = random.randint(0, 10)
+        print(10, k, d, c, file=f)
+        print(" ".join(pracs[start: start+10]), file=f)
 
 sqrt = math.ceil(math.sqrt(len(pracs)))
-for x in range(n_medium):
-    start = random.randint(0, len(pracs) - sqrt)
-    k = random.randint(2, 7)
-    d = random.randint(20, 50)
-    c = random.randint(5, 15)
-    print(sqrt, k, d, c)
-    print(" ".join(pracs[start: start+sqrt]))
+with open("solutions/Q2/2.in", "w") as f:
+    print("dataset/build", file=f)
+    print(n_medium, file=f)
+    for x in range(n_medium):
+        start = random.randint(0, len(pracs) - sqrt)
+        k = random.randint(2, 7)
+        d = random.randint(20, 50)
+        c = random.randint(5, 15)
+        print(sqrt, k, d, c, file=f)
+        print(" ".join(pracs[start: start+sqrt]), file=f)
 
-for x in range(n_easy):
-    start = random.randint(0, len(pracs) - 10)
-    k = random.randint(4, 10)
-    d = random.randint(40, 100)
-    c = random.randint(10, 20)
-    print(len(pracs)-10, k, d, c)
-    print(" ".join(pracs[:start] + pracs[start+10:]))
+with open("solutions/Q2/3.in", "w") as f:
+    print("dataset/build", file=f)
+    print(n_hard, file=f)
+    for x in range(n_hard):
+        start = random.randint(0, len(pracs) - 10)
+        k = random.randint(4, 10)
+        d = random.randint(40, 100)
+        c = random.randint(10, 20)
+        print(len(pracs)-10, k, d, c, file=f)
+        print(" ".join(pracs[:start] + pracs[start+10:]), file=f)
 
