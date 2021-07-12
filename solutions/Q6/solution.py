@@ -36,6 +36,8 @@ def find1(nums):
     elif len(nums) <= 3:
         print("Q 1 1", nums[0], nums[1])
         res = input()
+        if res == "FINISH":
+            raise FinishError()
         if res == LEFT:
             return nums[0]
         elif res == RIGHT:
@@ -44,6 +46,8 @@ def find1(nums):
     size = len(nums)//3
     print(f"Q {size} {size}", " ".join(nums[:2*size]))
     res = input()
+    if res == "FINISH":
+        raise FinishError()
     if res == LEFT:
         return find1(nums[:size])
     elif res == RIGHT:
@@ -59,6 +63,8 @@ def find2(nums):
     elif len(nums) == 3:
         print("Q 1 1", nums[0], nums[1])
         res = input()
+        if res == "FINISH":
+            raise FinishError()
         if res == LEFT:
             return nums[0], nums[2]
         elif res == RIGHT:
@@ -67,6 +73,8 @@ def find2(nums):
     elif len(nums) == 4:
         print("Q 2 2", " ".join(nums))
         res = input()
+        if res == "FINISH":
+            raise FinishError()
         if res == LEFT:
             return nums[0], nums[1]
         elif res == RIGHT:
@@ -75,12 +83,16 @@ def find2(nums):
     elif len(nums) == 5:
         print("Q 1 1", nums[0], nums[1])
         res = input()
+        if res == "FINISH":
+            raise FinishError()
         if res == LEFT:
             return nums[0], find1(nums[2:])
         elif res == RIGHT:
             return nums[1], find1(nums[2:])
         print("Q 1 1", nums[0], nums[2])
         res = input()
+        if res == "FINISH":
+            raise FinishError()
         if res == LEFT:
             return nums[0], nums[1]
         elif res == RIGHT:
@@ -99,10 +111,14 @@ def find2(nums):
     # Weigh a against b
     print(f"Q {2*size} {2*size}", " ".join(a1 + a2 + b1 + b2))
     res = input()
+    if res == "FINISH":
+        raise FinishError()
     if res == LEFT:
         # None in b
         print(f"Q {2*size} {2*size}", " ".join(a1 + c1 + a2 + c2))
         res = input()
+        if res == "FINISH":
+            raise FinishError()
         if res == LEFT:
             # Both in a1 + c1.
             return find2(a1 + c1 + leftover)
@@ -115,6 +131,8 @@ def find2(nums):
         # c1 a2
         print(f"Q {size} {size}", " ".join(a1 + a2))
         res = input()
+        if res == "FINISH":
+            raise FinishError()
         if res == LEFT:
             return find1(a1), find1(c2)
         elif res == RIGHT:
@@ -124,6 +142,8 @@ def find2(nums):
         # None in a
         print(f"Q {2*size} {2*size}", " ".join(b1 + c1 + b2 + c2))
         res = input()
+        if res == "FINISH":
+            raise FinishError()
         if res == LEFT:
             # None in b2, c2, a1, a2.
             return find2(b1 + c1 + leftover)
@@ -136,6 +156,8 @@ def find2(nums):
         # c1 b2
         print(f"Q {size} {size}", " ".join(b1 + b2))
         res = input()
+        if res == "FINISH":
+            raise FinishError()
         if res == LEFT:
             return find1(b1), find1(c2)
         elif res == RIGHT:
@@ -144,6 +166,8 @@ def find2(nums):
     # Equal - 1 in a, 1 in b or 2 in c + leftovers
     print(f"Q {2*size} {2*size}", " ".join(a1 + b1 + c1 + c2))
     res = input()
+    if res == "FINISH":
+        raise FinishError()
     if res == LEFT:
         return find1(a1 + a2), find1(b1 + b2)
     elif res == RIGHT:
@@ -151,11 +175,16 @@ def find2(nums):
     # Either 1 in a2, 1 in b2, or both in leftover.
     print(f"Q {size} {size}", " ".join(a1 + a2))
     res = input()
+    if res == "FINISH":
+        raise FinishError()
     if res == RIGHT:
         return find1(a2), find1(b2)
     else:
         # left not possible
         return find2(leftover)
+
+class FinishError(Exception):
+    pass
 
 for x in range(n):
     in1, in2 = list(map(float, input().split()))
@@ -165,5 +194,8 @@ for x in range(n):
             l = y
         if patients_sorted[y][0] <= in2:
             r = y
-    ids = find2(list(map(lambda x: x[1], patients_sorted[l:r+1])))
-    print("A", " ".join(ids))
+    try:
+        ids = find2(list(map(lambda x: x[1], patients_sorted[l:r+1])))
+        print("A", " ".join(ids))
+    except FinishError:
+        continue
