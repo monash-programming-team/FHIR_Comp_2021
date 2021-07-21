@@ -5,6 +5,6 @@ You'll want to run it with the `--no-upload` flag, since you most likely aren't 
 
 The `solutions` folder houses solutions for each question. `Q7` is actually `Q0`, the sample problem. Some folders include bad solutions, for testing, and also to show some pitfalls participants could have made.
 
-Slightly out of date statements are also stored in this repo. The statements on DMOJ are more up to date.
+Slightly out of date statements are also stored in this repo. The statements on mcpc.club are more up to date.
 
 The dataset reading algorithm is separate from the solution files, and they are combined together with `solutions/build_soln.py`.
