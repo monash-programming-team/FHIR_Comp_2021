@@ -1,6 +1,6 @@
 # This solution is n^2 * k
 # As for every DP, we search until a collision is met
-# In reality probably n^{3/2} given the test data.
+# In reality probably n^{3/2} given the test data, since about sqrt(n) different tokens are used for bionic enhancement.
 
 import datetime
 

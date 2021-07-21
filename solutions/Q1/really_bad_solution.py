@@ -1,3 +1,6 @@
+"""
+Is just wrong :p
+"""
 filepath = input()
 
 data = read_dataset(filepath)

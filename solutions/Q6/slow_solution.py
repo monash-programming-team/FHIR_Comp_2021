@@ -1,4 +1,4 @@
-# Stress that each test is independent.
+# This solution is relatively simpler, although still a bit complicated.
 import datetime
 import decimal
 

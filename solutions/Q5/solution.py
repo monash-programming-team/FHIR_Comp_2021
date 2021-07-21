@@ -1,4 +1,6 @@
-# Stress that each test is independent.
+# Solution idea:
+# Relatively simple, you can waste the first seven days just figuring out what days of the week the rats are in the machine.
+# After that, just binary search!
 import datetime
 import decimal
 

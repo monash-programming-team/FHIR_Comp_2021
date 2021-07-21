@@ -1,3 +1,8 @@
+"""
+For the most part, either grouping everything together or nothing at all seems to dominate, after some analysis.
+So try both and pick the best.
+"""
+
 import decimal
 import datetime
 import math

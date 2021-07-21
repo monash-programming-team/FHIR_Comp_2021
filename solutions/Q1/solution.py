@@ -1,3 +1,8 @@
+"""
+Solution uses a two pointer technique.
+After sorting patients by value, we try to figure out from every patient, how many more patients to the right can be included before `possible` returns False.
+"""
+
 import decimal
 import heapq
 import datetime

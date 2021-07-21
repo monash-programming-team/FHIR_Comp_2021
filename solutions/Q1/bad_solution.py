@@ -1,3 +1,7 @@
+"""
+O(n^2) solution just brute forces.
+"""
+
 import decimal
 import datetime
 

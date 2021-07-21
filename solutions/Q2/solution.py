@@ -1,3 +1,11 @@
+"""
+Solution uses DP. After sorting patients by priority:
+DP[x][y] = With `y` "changes to Eye Color", how big of a contiguous subset, ending at index `x`, can we create that contains no duplicates != "changes to Eye Color".
+COST[x][y] = COST of covering everything up to index `x`, allowing `y` "changes to Eye Color" at some point in time.
+So solution is COST[z][max_k], where `z` is the last patient index.
+O(n*(k^2))
+"""
+
 import datetime
 
 filepath = input()

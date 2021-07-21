@@ -1,6 +1,9 @@
-# This is an N^5 operation
+# This is an N^5 operation with sweepline :o
 # This doesn't solve the problem completely, as there are some edge case rectangle selections that get ignored.
 # It does a pretty good job though.
+# DP[x1][y1][x2][y2] = Best attempt at cost of covering everyone in the rectangle (x1, y1) -> (x2, y2) inclusive.
+# This isn't fully optimal, but it works pretty well.
+# You can analyse the results with `analysis.py`.
 
 import sys
 import decimal

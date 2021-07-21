@@ -1,4 +1,9 @@
-# Stress that each test is independent.
+"""
+This solution is rather complicated but should be O(log_3(n^2)), the theoretical limit for this problem.
+Sadly it's quite easy to somewhat simpler solution that is about O(log_{9/4}(n)), which is quite close to the theoretical limit, so it is hard to test.
+
+To understand this solution, a diagram that splits each subproblem into six sections, a1a2b1b2c1c2, might be useful.
+"""
 import datetime
 import decimal
 
